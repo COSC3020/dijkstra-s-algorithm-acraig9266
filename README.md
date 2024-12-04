@@ -28,4 +28,5 @@ inefficient.
 
 What is the big $\Theta$ complexity of your implementation? Add your
 answer, including your reasoning, to this markdown file.
-The implementation is $\Theta$(n<sup>2</sup>). The first for loop in the findDists function is a worst case complexity of n.The second for loop in findDists is also a worst case of n in a fully connected graph. The findDists function recursively calls itself at most n times. This gives a complexity of n * 2n or $\Theta$(n<sup>2</sup>).
+
+The implementation is $\Theta$(n<sup>2</sup>). The first for loop in the findDists function is a worst case complexity of n. The second for loop in findDists is also a worst case of n in a fully connected graph. The findDists function recursively calls itself at most n times. This gives a complexity of n * 2n or $\Theta$(n<sup>2</sup>).
