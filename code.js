@@ -1,10 +1,9 @@
 function dijkstra(graph, sourceNode) {
     graphKeys = Object.keys(graph);
-    console.log(graphKeys);
     graphVal = Object.values(graph);
-    distArr = new Array(Object.keys(graph).length);
+    distArr = new Array(graphKeys.length);
 
-    for (i = 0; i < Object.keys(graph).length; i++) {
+    for (i = 0; i < graphKeys.length; i++) {
         if (graphKeys[i][0] === sourceNode) {
             distArr[i] = 0;
         } else {
@@ -12,26 +11,35 @@ function dijkstra(graph, sourceNode) {
         }
     }
 
-    findDists(graphKeys, graphVal, graphKeys.indexOf(sourceNode), distArr, m = new Set(sourceNode));
+    start = graphKeys.indexOf(sourceNode);
+
+    m = new Set();
+    m.add(start);
+
+    findDists(graphKeys, graphVal, start, distArr, m);
     return distArr;
 }
 
 function findDists(graphKey, graphVal, startPos, distArr, marked) {
-    if (marked.size === graphKey.length) {
+    marked.add(startPos);
+    for (i = 0; i < graphVal[startPos].length; i += 2) {
+        if (distArr[startPos] + graphVal[startPos][i + 1] < distArr[graphKey.indexOf(graphVal[startPos][i])]) {
+            distArr[graphKey.indexOf(graphVal[startPos][i])] = distArr[startPos] + graphVal[startPos][i + 1];
+        }
+    }
+    var currentPos = -1;
+    var currentDist = Math.min();
+
+    for (j = 0; j < graphKey.length; j++) {
+        if (!marked.has(j) && distArr[j] < currentDist) {
+            currentDist = distArr[j];
+            currentPos = j;
+        }
+    }
+
+    if (currentPos == -1) {
         return;
     }
-    curMin = Math.min();
-    for (i = 0; i < graphVal[startPos].length; i+=2) {
-        if (!marked.has(graphVal[startPos][i])) {
-            marked.add(graphVal[startPos][i]);
-            distArr[graphKeys.indexOf(graphVal[startPos][i])] = distArr[startPos] + graphVal[startPos][i + 1]
-        } else {
-            if (distArr[startPos] + graphVal[startPos][i + 1] <= distArr[graphKeys.indexOf(graphVal[startPos][i])]) {
-                console.log(graphVal[startPos][i + 1])
-                distArr[graphKeys.indexOf(graphVal[startPos][i])] = distArr[startPos] + graphVal[startPos][i + 1];
-            }
-        }
-        curMin = Math.min(curMin, distArr[graphKeys.indexOf(graphVal[startPos][i])])
-    }
-    findDists(graphKey, graphVal, distArr.indexOf(curMin), distArr, marked);
+
+    findDists(graphKey, graphVal, currentPos, distArr, marked);
 }
