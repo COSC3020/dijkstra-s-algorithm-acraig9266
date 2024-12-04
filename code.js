@@ -7,7 +7,7 @@ function dijkstra(graph, sourceNode) {
         if (graphKeys[i][0] === sourceNode) {
             distArr[i] = 0;
         } else {
-            distArr[i] = Math.min();
+            distArr[i] = Infinity;
         }
     }
 
@@ -28,7 +28,7 @@ function findDists(graphKey, graphVal, startPos, distArr, marked) {
         }
     }
     var currentPos = -1;
-    var currentDist = Math.min();
+    var currentDist = Infinity;
 
     for (j = 0; j < graphKey.length; j++) {
         if (!marked.has(j) && distArr[j] < currentDist) {
